@@ -1,14 +1,16 @@
 // Navbar.jsx
 import { useState } from 'react';
 import { Moon, Sun, Menu, X } from 'lucide-react';
-import { useDarkModeStore } from '../../../store/darkModeStore';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../states/store';
+import { toggleDarkMode } from '../../../states/Slices/themeSlice';
 
 interface NavbarProps{
     onSignInClick : () => void    
 }
 const Navbar = ({ onSignInClick }: NavbarProps) => {
-  const { darkMode, toggleDarkMode } = useDarkModeStore();
+  const dispatch = useDispatch();
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -22,7 +24,7 @@ const Navbar = ({ onSignInClick }: NavbarProps) => {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-6">
           <button
-            onClick={toggleDarkMode}
+            onClick={() => {dispatch(toggleDarkMode())}}
             className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
           >
             {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -32,7 +34,7 @@ const Navbar = ({ onSignInClick }: NavbarProps) => {
             onClick={onSignInClick}
             className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
           >
-            Sign In
+            Sign Up
           </button>
         </div>
 
