@@ -1,19 +1,31 @@
 import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
+import { useNavigate } from "react-router-dom";
 
 export const LoginForm = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, loading, error } = useLogin();
-  
-  const handleSubmit = async (e: React.FormEvent) =>{
+  // useNavigate must be called inside the component body
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login({email, password});
-  }
+    try {
+      await login({ email, password });
+      navigate("/dashboard");
+    } catch (error) {
+      // Handle error if needed
+    }
+  };
+
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
-      {error && <p className="mx-auto text-red-700 dark:text-rose-500">{error.message}</p>}
+      {error && (
+        <p className="mx-auto text-red-700 dark:text-rose-500">
+          {error.message}
+        </p>
+      )}
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Email
@@ -41,7 +53,7 @@ export const LoginForm = () => {
         className="w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
         disabled={loading}
       >
-        {loading ? 'Working on it':'Sign In'}
+        {loading ? "Working on it" : "Sign In"}
       </button>
     </form>
   );

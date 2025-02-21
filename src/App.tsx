@@ -1,15 +1,27 @@
+// App.tsx
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from './states/store';
+import AppRoutes from './routes';
 
-import Home from './pages/landingPage/Home';
-import { store } from './states/store';
-import { Provider } from 'react-redux';
-function App() {
+const App: React.FC = () => {
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
+
   return (
-    <Provider store={store}>
-      <Home/>
-    </Provider>
+    <div className='dark:bg-black'>
+      <AppRoutes />
+    </div>
+    
   )
-}
-
-
+  
+};
 
 export default App;

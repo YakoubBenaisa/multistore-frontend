@@ -15,6 +15,8 @@ export function useLogin() {
       try {
         const data = await loginUser(credentials);
         setLoading(false);
+        localStorage.setItem('accessToken', data.data.accessToken);
+        localStorage.setItem('refreshToken', data.data.refreshToken);
         return data;
       } catch (err: any) {
         console.log(err.message)

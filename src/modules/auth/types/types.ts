@@ -1,14 +1,11 @@
-
-
 export interface LoginCredentials {
   email: string;
   password: string;
 }
 
 export interface LoginResponse {
-  // Define additional response fields as needed.
   accessToken?: string;
-  
+  refreshTokon?: string;
 }
 
 export interface AuthModalProps {
