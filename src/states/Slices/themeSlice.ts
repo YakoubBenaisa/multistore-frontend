@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface themeProps {
     darkMode: boolean;
 }
+
 const initialState: themeProps = {
   darkMode: localStorage.getItem("darkMode") === "true", 
 }

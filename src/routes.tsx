@@ -1,30 +1,38 @@
 // AppRoutes.tsx
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import MainHome from './pages/landingPage/Home';
-import Home from './pages/Store/dashboard/src/pages/Dashboard/Home';
-import AppLayout from './pages/Store/dashboard/src/layout/AppLayout';
-import UserProfiles from './pages/Store/dashboard/src/pages/UserProfiles';
-import Calendar from './pages/Store/dashboard/src/pages/Calendar';
-import Blank from './pages/Store/dashboard/src/pages/Blank';
-import FormElements from './pages/Store/dashboard/src/pages/Forms/FormElements'; 
-import BasicTables from './pages/Store/dashboard/src/pages/Tables/BasicTables';
-import Alerts from './pages/Store/dashboard/src/pages/UiElements/Alerts';
-import Avatars from './pages/Store/dashboard/src/pages/UiElements/Avatars';
-import Badges from './pages/Store/dashboard/src/pages/UiElements/Badges';
-import Buttons from './pages/Store/dashboard/src/pages/UiElements/Buttons';
-import Images from './pages/Store/dashboard/src/pages/UiElements/Images';
-import Videos from './pages/Store/dashboard/src/pages/UiElements/Videos';
-import LineChart from './pages/Store/dashboard/src/pages/Charts/LineChart';
-import BarChart from './pages/Store/dashboard/src/pages/Charts/BarChart';
+import MainHome from './Store/Landing/pages/Home';
+import Home from './Store/Admin/pages/Dashboard/Home';
+import AppLayout from './Store/Admin/layout/AppLayout';
+import UserProfiles from './Store/Admin/pages/UserProfiles';
+import Calendar from './Store/Admin/pages/Calendar';
+import Blank from './Store/Admin/pages/Blank';
+import FormElements from './Store/Admin/pages/Forms/FormElements'; 
+import BasicTables from './Store/Admin/pages/Tables/BasicTables';
+import Alerts from './Store/Admin/pages/UiElements/Alerts';
+import Avatars from './Store/Admin/pages/UiElements/Avatars';
+import Badges from './Store/Admin/pages/UiElements/Badges';
+import Buttons from './Store/Admin/pages/UiElements/Buttons';
+import Images from './Store/Admin/pages/UiElements/Images';
+import Videos from './Store/Admin/pages/UiElements/Videos';
+import LineChart from './Store/Admin/pages/Charts/LineChart';
+import BarChart from './Store/Admin/pages/Charts/BarChart';
 import './dashboardStyle.css'
+import NotFound from './Store/Admin/pages/OtherPage/NotFound';
+import SignIn from './Store/Landing/pages/SignIn';
+import SignUp from './Store/Landing/pages/SignUp';
+import { useSelector } from 'react-redux';
+import { RootState } from './states/store';
+
 const AppRoutes = () => {
-  const isAuthenticated = Boolean(localStorage.getItem('accessToken'));
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isLogged)
 
   return (
     <Router >
       <Routes>
         {/* Public Route */}
-        <Route path="/" element={<MainHome />} />
+        <Route path="/" element={isAuthenticated ? <Navigate to={"/dashboard"}/>: <MainHome />} />
+        <Route path='/login' element={isAuthenticated ? <Navigate to={"/dashboard"}/> : <SignIn />}/>
+        <Route path='/register' element={isAuthenticated ? <Navigate to={"/dashboard"}/> : <SignUp />}/>
         {/* Protected Dashboard Routes */}
         <Route
           path="/dashboard/*"
@@ -47,6 +55,7 @@ const AppRoutes = () => {
           <Route path="videos" element={<Videos />} />
           <Route path="line-chart" element={<LineChart />} />
           <Route path="bar-chart" element={<BarChart />} />
+          <Route path='ss' element={<NotFound/>} />
         </Route>
       </Routes>
     </Router>
