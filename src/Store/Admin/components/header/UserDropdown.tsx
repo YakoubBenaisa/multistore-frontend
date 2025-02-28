@@ -12,18 +12,15 @@ export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
 
 
-
-
   const isLogged = useSelector((state: RootState) => state.auth.isLogged);
-    const disfatbitch = useDispatch();
+    const dispatch = useDispatch();
     const { logout } = useLogout();
     
-      console.log(isLogged)
       const handleLogout = async () => {
         try {
           await logout();
     
-          disfatbitch(toggleIsLogged())
+          dispatch(toggleIsLogged())
           // Optionally, navigate to a login page or clear additional state here.
     
         } catch (err) {
@@ -31,10 +28,6 @@ export default function UserDropdown() {
           //console.error('Logout failed:', err);
         }
       };
-  
-  
-  
-
 
   function toggleDropdown() {
     setIsOpen(!isOpen);

@@ -26,7 +26,7 @@ export async function logoutUser(token:string) {
   const response = await fetch(URL+'/logout',{
     method: 'POST',
     headers: {
-       'Authorization' : token,
+       'Authorization' : `Bearer ${token}`,
     }
   })
   const data = await response.json(); // Await parsing of the JSON response
@@ -40,7 +40,7 @@ export async function logoutUser(token:string) {
   
 }
 
-export async function register(params:{username: string; email: string; password: string}) {
+export async function registerUser(params:{username: string; email: string; password: string}) {
 
   const response = await fetch(URL+'/register',{
     method:"POST",
@@ -48,7 +48,7 @@ export async function register(params:{username: string; email: string; password
     body: JSON.stringify(params)
   });
   const data =  await response.json();
-  
+  return data
   if (! response.ok) {
     //console.error(data);
     throw new Error(data.error?.message );

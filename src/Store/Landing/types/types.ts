@@ -1,3 +1,7 @@
+interface data {
+  accessToken: string;
+  refreshToken: string
+}
 export interface LoginCredentials {
   email: string;
   password: string;
@@ -14,6 +18,7 @@ export interface RegisterCredentials {
   password: string;
 }
 export interface RegisterResponse {
-  
+  success: boolean,
+  data: data
 }
 

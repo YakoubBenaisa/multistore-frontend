@@ -1,13 +1,40 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link,useNavigate } from "react-router";
+import { toggleIsLogged } from "../../../../states/Slices/auth";
+
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../../../assets/icons";
 import Label from "../../../shared/components/form/Label";
 import Input from "../../../shared/components/form/input/InputField";
 import Checkbox from "../../../shared/components/form/input/Checkbox";
+import { useRegister } from "../../hooks/useRgister";
+import { useDispatch } from "react-redux";
+import Alert from "../../../shared/components/ui/alert/Alert";
 export default function SignUpForm() {
+  
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const {register, loading, error} = useRegister();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      try {
+        await register({ username, email, password });
+        dispatch(toggleIsLogged());
+        navigate("/dashboard");
+        
+  
+      } catch (error) {
+        // Handle error if needed
+      }
+    };
 
   return (
     <div className="flex flex-col flex-1 w-full overflow-y-auto lg:w-1/2 no-scrollbar">
@@ -22,6 +49,7 @@ export default function SignUpForm() {
       </div>
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
         <div>
+          {error? <Alert variant="error" title = {error.message} message="Please Try Again Later!"/> : <></>}
           <div className="mb-5 sm:mb-8">
             <h1 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md">
               Sign Up
@@ -83,7 +111,7 @@ export default function SignUpForm() {
                 </span>
               </div>
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="space-y-5">
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   
@@ -96,6 +124,8 @@ export default function SignUpForm() {
                       type="text"
                       id="fname"
                       name="fname"
+                      value={username}
+                      onChange={(e)=> {setUsername(e.target.value)}}
                       placeholder="Enter your first name"
                     />
                   </div>
@@ -124,6 +154,8 @@ export default function SignUpForm() {
                     id="email"
                     name="email"
                     placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
 
@@ -136,6 +168,8 @@ export default function SignUpForm() {
                     <Input
                       placeholder="Enter your password"
                       type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
@@ -171,7 +205,7 @@ export default function SignUpForm() {
 
                 {/* <!-- Button --> */}
                 <div>
-                  <button className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
+                  <button disabled={loading} className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
                     Sign Up
                   </button>
                 </div>
@@ -183,6 +217,7 @@ export default function SignUpForm() {
                 Already have an account?
                 <Link
                   to="/login"
+                
                   className="text-brand-500 hover:text-brand-600 dark:text-brand-400"
                 >
                   Sign In

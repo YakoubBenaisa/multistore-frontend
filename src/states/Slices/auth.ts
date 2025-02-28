@@ -1,14 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface isLoggedProps {
+interface UserProps {
     isLogged: boolean;
+    user: string | null;
+    store: string | null;
 }
 
-const initialState: isLoggedProps = {
+const initialState: UserProps = {
   isLogged: localStorage.getItem("isLogged") === 'true', 
+  user: null,
+  store: null
 }
 
-const isLoggedSlice = createSlice({
+const userSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
@@ -19,5 +23,5 @@ const isLoggedSlice = createSlice({
     }
 })
 
-export const { toggleIsLogged} = isLoggedSlice.actions ;
-export default isLoggedSlice.reducer;
+export const { toggleIsLogged} = userSlice.actions ;
+export default userSlice.reducer;

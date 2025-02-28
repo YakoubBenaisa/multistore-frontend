@@ -14,7 +14,7 @@ import BasicTables from "./pages/Tables/BasicTables";
 import FormElements from "./pages/Forms/FormElements";
 import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
-import { ScrollToTop } from "./components/common/ScrollToTop";
+import { ScrollToTop } from "../shared/components/containers/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 
 export default function Dashboard() {

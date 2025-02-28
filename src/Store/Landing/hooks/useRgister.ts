@@ -1,7 +1,7 @@
 // useLogin.ts
 import { useState, useCallback } from "react";
-import { loginUser } from "../service/auth";
-import { RegisterCredentials, LoginResponse } from "../types/types";
+import { registerUser } from "../service/auth";
+import { RegisterCredentials, RegisterResponse } from "../types/types";
 
 
 export function useRegister() {
@@ -9,11 +9,11 @@ export function useRegister() {
   const [error, setError] = useState<Error | null>(null);
 
   const register = useCallback(
-    async (credentials: RegisterCredentials): Promise<LoginResponse> => {
+    async (credentials: RegisterCredentials): Promise<RegisterResponse> => {
 setLoading(true);
       setError(null);
       try {
-        const data = await loginUser(credentials);
+        const data = await registerUser(credentials);
         setLoading(false);
         localStorage.setItem('accessToken', data.data.accessToken);
         localStorage.setItem('refreshToken', data.data.refreshToken);
