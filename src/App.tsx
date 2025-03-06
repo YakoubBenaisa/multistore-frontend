@@ -1,8 +1,8 @@
 // App.tsx
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from './states/store';
-import AppRoutes from './routes';
+import { RootState } from './redux/store';
+import AppRoutes from './Routes/routes';
 
 const App: React.FC = () => {
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
