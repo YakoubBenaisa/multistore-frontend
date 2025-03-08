@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-import { useCreate } from '../hooks/useCreate';
+import  {useCreate}  from '../hooks/useCreateOrUpdate';
 import Alert from '../../../shared/ui/alert/Alert';
 import { useNavigate } from 'react-router-dom';
 
