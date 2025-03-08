@@ -1,6 +1,6 @@
 // useLogin.ts
 import { useState, useCallback } from "react";
-import { loginUser } from "../services/auth";
+import { AuthService } from "../services/auth";
 import { LoginCredentials, LoginResponse } from "../types/types";
 
 export function useLogin() {
@@ -13,7 +13,7 @@ export function useLogin() {
       setError(null);
       try {
 
-        const data = await loginUser(credentials);
+        const data = await AuthService.loginUser(credentials);
         
         setLoading(false);
         localStorage.setItem('accessToken', data.data.accessToken);

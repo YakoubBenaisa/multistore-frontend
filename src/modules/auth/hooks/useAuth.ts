@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { loginSuccess, logoutAction } from "../states/auth";
-import { getUser, refreshToken } from "../services/auth";
+import { AuthService } from "../services/auth";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ export const useAuth = () => {
 
       try {
         // Use the service function to fetch user data
-        const result = await getUser(accessToken);
+        const result = await AuthService.getUser(accessToken);
         
         dispatch(loginSuccess(result.data));
         console.log(result.data)
@@ -39,7 +39,7 @@ export const useAuth = () => {
           }
           try {
             // Attempt to refresh the token
-            await refreshToken();
+            await AuthService.refreshToken();
             // Retry authentication after refreshing token
             return authenticate();
           } catch (refreshError) {

@@ -1,6 +1,6 @@
 // useLogin.ts
 import { useState, useCallback } from "react";
-import { registerUser } from "../services/auth";
+import { AuthService } from "../services/auth";
 import { RegisterCredentials, RegisterResponse } from "../types/types";
 
 export function useRegister() {
@@ -12,7 +12,7 @@ export function useRegister() {
 setLoading(true);
       setError(null);
       try {
-        const data = await registerUser(credentials);
+        const data = await AuthService.registerUser(credentials);
         setLoading(false);
         //console.log(data);
         const refreshToken = data.data.refreshToken;

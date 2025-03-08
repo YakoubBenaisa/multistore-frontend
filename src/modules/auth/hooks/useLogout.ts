@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { logoutUser, refreshToken } from '../services/auth'; // Ensure your auth service exports a properly named logout function
+import { AuthService } from '../services/auth'; // Ensure your auth service exports a properly named logout function
 
 export function useLogout() {
 
@@ -14,7 +14,7 @@ export function useLogout() {
         if (!TOKEN) {
             throw new Error('No access token found');
         }
-        const response = await logoutUser(TOKEN);
+        const response = await AuthService.logoutUser(TOKEN);
         //jscookie.remove('x-refresh-token');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('accessToken');
@@ -25,7 +25,7 @@ export function useLogout() {
             try {
                 console.log('Refreshing token');
 
-                await refreshToken();
+                await AuthService.refreshToken();
                 return logout();
             } catch (err) {
                 console.error(err);

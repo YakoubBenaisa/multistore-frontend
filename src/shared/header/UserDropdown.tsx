@@ -4,12 +4,12 @@ import { Dropdown } from "../ui/dropdown/Dropdown";
 import { Link } from "react-router";
 import { useLogout } from "../../modules/auth/hooks/useLogout";
 import {  useDispatch } from "react-redux";
-
+import { User } from "lucide-react";
 import { logoutAction } from "../../modules/auth/states/auth";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { removeUser } from "../states/user/userSlice";
-
+import { removeStore } from "../../modules/store/states/storeSlice";
 export default function UserDropdown() {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +24,7 @@ export default function UserDropdown() {
     
           dispatch(logoutAction())
           dispatch(removeUser())
+          dispatch(removeStore())
           // Optionally, navigate to a login page or clear additional state here.
     
         } catch (err) {
@@ -46,7 +47,8 @@ export default function UserDropdown() {
         className="flex items-center text-gray-700 dropdown-toggle dark:text-gray-400"
       >
         <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
-          <img src="/images/user/owner.jpg" alt="User" />
+          <User className="h-8 w-8" />
+
         </span>
 
         <span className="block mr-1 font-medium text-theme-sm">{user?.username}</span>
