@@ -17,7 +17,7 @@ export interface Store {
     payment_setup_status: boolean;
     created_at: string;
     updated_at: string;
-    owner: User;
+    owner?: User;
       }
 export enum EnumMethod{
   POST = 'POST',

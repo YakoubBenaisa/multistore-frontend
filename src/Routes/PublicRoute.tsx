@@ -6,6 +6,6 @@ import { RootState } from '../redux/store';
 
 export const PublicRoute = () => {
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-    return !isAuthenticated ? <Outlet /> : <Navigate to="/" replace />;
+    return !isAuthenticated ? <Outlet /> : <Navigate to="/home" replace />;
   };
   

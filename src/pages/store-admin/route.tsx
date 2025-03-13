@@ -9,20 +9,20 @@ import { ProtectedRoute } from '../../Routes/ProtectedRoute'
 import ProfilePage from './detailsPage/Profile'
 
 const routes = [
-  { path: '/', element: <Home /> },
+  { path: '/home', element: <Home /> },
   { path: 'login', element: <SignIn /> },
   { path: 'register', element: <SignUp /> },
-  { path: 'new-store', element: <NewStorePage /> },
+  { path: 'store/create', element: <NewStorePage /> },
 
   {
     element: <ProtectedRoute />,
     children: [
       {
-        path: 'dashboard',
+        path: '/',
         element: <AppLayout />, 
         children: [
           { index: true, element: <Dashboard /> },
-          {path: 'edit-store', element: <ProfilePage />},
+          {path: 'profile', element: <ProfilePage />},
         ],
       },
     ],

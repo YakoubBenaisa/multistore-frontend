@@ -1,12 +1,13 @@
+
+
 import { useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setStore } from "../states/storeSlice";
+import { useSelector } from "react-redux";
 import { StoreService } from "../services/store";
 import { RootState } from "../../../redux/store";
 import type { Store } from "../types/types";
 
-export default function useGetStore() {
-  const dispatch = useDispatch();
+// Hook for getting store data
+export function useGetStore() {
   const storeId = useSelector((state: RootState) => state.user.user?.storeId);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
@@ -18,11 +19,17 @@ export default function useGetStore() {
 
     setLoading(true);
     setError(null);
-
+    
     try {
-      const storeData = await StoreService.getStore(storeId);
+      const storeResponse = await StoreService.getStore(storeId);
       
-      return storeData;
+      // Clean the store data before dispatching
+      const { owner_id, created_at, updated_at, owner, ...cleanStore } = storeResponse.data;
+      
+      // Dispatch the cleaned store data to Redux
+      //dispatch(setStore(cleanStore));
+      
+      return cleanStore as Store;
     } catch (err: any) {
       setError(err);
       throw err;

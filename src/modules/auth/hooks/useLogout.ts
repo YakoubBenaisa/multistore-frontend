@@ -14,7 +14,7 @@ export function useLogout() {
         if (!TOKEN) {
             throw new Error('No access token found');
         }
-        const response = await AuthService.logoutUser(TOKEN);
+        const response = await AuthService.logoutUser();
         //jscookie.remove('x-refresh-token');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('accessToken');

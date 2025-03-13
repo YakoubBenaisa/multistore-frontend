@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-import  {useCreate}  from '../hooks/useCreateOrUpdate';
+import  { useCreateStore }  from '../hooks/useCreateOrUpdate';
 import Alert from '../../../shared/ui/alert/Alert';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ const StorePage = () => {
   const navigate = useNavigate();
   const [storeName, setStoreName] = useState('');
   const [storeDescription, setStoreDescription] = useState('');
-  const {createStore, loading, error} = useCreate();
+  const {createStore, loading, error} = useCreateStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

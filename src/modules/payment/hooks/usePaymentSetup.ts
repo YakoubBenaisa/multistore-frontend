@@ -9,7 +9,8 @@ export default function usePayment() {
 const dispatch = useDispatch()
   const resp =  usePaymentCommon();
 
-  if (!resp.error) dispatch(togglepayment())
+  if (!resp.error) dispatch(togglepayment());
+  
   return resp;
 
 

@@ -44,9 +44,9 @@ function SignInForm() {
   
       if (!user?.storeId) {
         console.log("Navigating to /new-store"); // Debugging line
-        navigate("/new-store");
+        navigate("/create/store");
       } else {
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (loginError) {
       console.error('Login failed:', loginError);

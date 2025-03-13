@@ -38,7 +38,7 @@ function SignUpForm() {
         dispatch(loginSuccess());
         dispatch(setUser(user));
         console.log('login success, redirect to new-store')
-        navigate("/new-store");
+        navigate("store/create");
         
   
       } catch (error) {

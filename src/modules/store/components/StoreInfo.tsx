@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
-import useGetStore from '../hooks/useGetStore';
-import { useUpdate } from '../hooks/useCreateOrUpdate';
+import {useGetStore} from '../hooks/useGetStore';
+import { useUpdateStore } from '../hooks/useCreateOrUpdate';
 import { Store } from '../types/types';
 import Button from '../../../shared/ui/button/Button';
+
 // Import your Redux action
 export default function StoreInfoForm() {
   const { fetchStore, loading, error } = useGetStore();
-  const { updateStore, loading: updateLoading, error: updateError } = useUpdate();
+  const { updateStore, loading: updateLoading, error: updateError } = useUpdateStore();
     
   const [store, setStore] = useState<Store | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -51,7 +52,8 @@ export default function StoreInfoForm() {
     if (!store) return;
     
     try {
-      const response = await updateStore(formData);
+      const { name, description } = formData;
+      const response = await updateStore({ name, description });
       if (response.success) {
         const updatedStore = { ...store, ...formData };
         setStore(updatedStore);

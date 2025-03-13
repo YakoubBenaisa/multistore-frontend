@@ -1,4 +1,14 @@
+import axios from 'axios';
+import api from '../../../api/api';
 const BASE_URL = 'http://localhost:3005/api/v1/auth';
+
+// Create an axios instance with default configuration.
+const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});
 
 export class AuthService {
   /**
@@ -7,19 +17,12 @@ export class AuthService {
    * @returns The JSON response if successful.
    */
   static async loginUser(credentials: { email: string; password: string }): Promise<any> {
-    const response = await fetch(`${BASE_URL}/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials)
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error?.message || 'Failed to login');
+    try {
+      const response = await axiosInstance.post('/login', credentials);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error?.message || 'Failed to login');
     }
-
-    return data;
   }
 
   /**
@@ -27,21 +30,14 @@ export class AuthService {
    * @param token The access token.
    * @returns The JSON response if successful.
    */
-  static async logoutUser(token: string): Promise<any> {
-    const response = await fetch(`${BASE_URL}/logout`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      }
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error?.message || 'Failed to logout');
+  static async logoutUser(): Promise<any> {
+    try {
+      // The interceptor will automatically add the Authorization header
+      const response = await api.post('/auth/logout');
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error?.message || 'Failed to logout');
     }
-
-    return data;
   }
 
   /**
@@ -50,19 +46,12 @@ export class AuthService {
    * @returns The JSON response if successful.
    */
   static async registerUser(params: { username: string; email: string; password: string }): Promise<any> {
-    const response = await fetch(`${BASE_URL}/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(params)
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error?.message);
+    try {
+      const response = await axiosInstance.post('/auth/register', params);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.error?.message || 'Failed to register user');
     }
-
-    return data;
   }
 
   /**
@@ -70,42 +59,37 @@ export class AuthService {
    * @returns The JSON response if successful.
    */
   static async refreshToken(): Promise<any> {
-    const response = await fetch(`${BASE_URL}/refresh-token`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('refreshToken')}`,
-      },
-      credentials: 'include'
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error(data);
+    try {
+      const refreshToken = localStorage.getItem('refreshToken');
+      const response = await axiosInstance.post('/refresh-token', null, {
+        headers: {
+          'Authorization': `Bearer ${refreshToken}`,
+        },
+        withCredentials: true
+      });
+      const data = response.data as { data?: { accessToken?: string } };
+      if (data.data?.accessToken) {
+        localStorage.setItem('accessToken', data.data.accessToken);
+        console.log('New access token:', data.data.accessToken);
+      }
+      return data;
+    } catch (error: any) {
+      console.error(error.response?.data);
       throw new Error('Failed to refresh token');
     }
-
-    localStorage.setItem('accessToken', data.data.accessToken);
-    console.log(data.data.accessToken);
-    return data;
   }
 
-  /**
+   /**
    * Retrieves the user data.
-   * @param token The access token.
    * @returns The JSON response containing the user data.
    */
-  static async getUser(token: string | null): Promise<any> {
-    const response = await fetch(`${BASE_URL}/me`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      }
-    });
-
-    if (!response.ok) {
+   static async getUser(): Promise<any> {
+    try {
+      // The interceptor automatically attaches the token from localStorage.
+      const response = await api.get('/auth/me');
+      return response.data;
+    } catch (error: any) {
       throw new Error('Something went wrong in fetching user data');
     }
-
-    return await response.json();
   }
 }

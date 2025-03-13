@@ -18,7 +18,7 @@ export const ProtectedRoute: React.FC = () => {
   
     // If user is authenticated but has no store, redirect to new-store
     if (!user?.storeId) {
-      return <Navigate to="/new-store" replace />;
+      return <Navigate to="/store/create" replace />;
     }
   
     // If user is authenticated and has a store, allow access to the requested route

@@ -1,75 +1,91 @@
-import { useDispatch } from "react-redux";
-import { EnumMethod, StoreResponse } from "../types/types";
-import { setStore } from "../states/storeSlice";
+import api from '../../../api/api'; // Adjust the path as needed
+import {  StoreResponse } from "../types/types";
 
 export class StoreService {
-  static baseUrl: string = 'http://localhost:3005/api/v1/stores';
-
   /**
-   * Creates or updates a store.
+   * Creates a store.
    * @param params The store parameters containing name and description.
    * @param userId The owner/user id.
-   * @param method HTTP method: POST for create, PUT for update.
-   * @param storeId The store id (empty string if creating).
+   * @param storeId Optional store id (if needed for creation, usually not provided).
+   * @returns The JSON response containing the store data.
    */
-  private static async createOrUpdate(
+  static async create(
     params: { name: string; description: string },
     userId: string,
-    method: EnumMethod,
     storeId: string = ''
   ): Promise<StoreResponse> {
-    const token = localStorage.getItem('accessToken') || '';
-    const response = await fetch(`${this.baseUrl}/${storeId}`, {
-      method: method,
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        'owner_id': userId,
-      },
-      body: JSON.stringify(params)
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
+    let uri = '/stores';
+    if (storeId) {
+      uri = `/stores/${storeId}`;
+    }
+    try {
+      const response = await api.request({
+        url: uri,
+        method: 'POST', // POST for creation
+        headers: {
+          'Content-Type': 'application/json',
+          'owner_id': userId,
+        },
+        data: params,
+      });
+      return response.data as any;
+    } catch (error: any) {
       throw new Error(
-        data.error?.message || `Failed to ${method === EnumMethod.POST ? 'Create' : 'Update'}`
+        error.response?.data?.error?.message || 'Failed to Create store'
       );
     }
-
-    console.log(data)
-    return data;
   }
 
-  static async create(params:{ name: string; description: string }, userId: string, storeId: string = ''): Promise<any> {
-  
-          return this.createOrUpdate(params, userId, EnumMethod.POST, storeId)
-      }
-
-  static async update(params:{ name: string; description: string }, userId: string, storeId: string = ''): Promise<any> {
-
-        return this.createOrUpdate(params, userId, EnumMethod.PUT, storeId)
+  /**
+   * Updates a store.
+   * @param params The store parameters containing name and description.
+   * @param userId The owner/user id.
+   * @param storeId The store id to update.
+   * @returns The JSON response containing the updated store data.
+   */
+  static async update(
+    params: { name: string; description: string },
+    userId: string,
+    storeId: string
+  ): Promise<StoreResponse> {
+    const uri = `/stores/${storeId}`;
+    try {
+      const response = await api.request({
+        url: uri,
+        method: 'PUT', // PUT for updating
+        headers: {
+          'Content-Type': 'application/json',
+          'owner_id': userId,
+        },
+        data: params,
+      });
+      return response.data as any;
+    } catch (error: any) {
+      throw new Error(
+        error.response?.data?.error?.message || 'Failed to Update store'
+      );
     }
+  }
 
   /**
    * Retrieves the store data by store id.
    * @param storeId The store id.
+   * @returns The store data.
    */
-  static async getStore(storeId: string): Promise<any> {
-    const token = localStorage.getItem('accessToken') || '';
-    const response = await fetch(`${this.baseUrl}/${storeId}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const data = await response.json();
-    
-    if (!response.ok) {
-      throw new Error(data.error?.message || 'Failed to Get store');
+  static async getStore(
+    storeId: string
+  ): Promise<StoreResponse> {
+    try {
+      const response = await api.get<StoreResponse>(`/stores/${storeId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      return response.data;
+    } catch (error: any) {
+      throw new Error(
+        error.response?.data?.error?.message || 'Failed to Get store'
+      );
     }
-    return data.data;
   }
 }
