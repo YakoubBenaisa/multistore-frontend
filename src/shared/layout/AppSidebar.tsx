@@ -16,7 +16,7 @@ import {
   UserCircleIcon,
 } from "../../assets/icons/index";
 import { useSidebar } from "../context/SidebarContext";
-import SidebarWidget from "./SidebarWidget";
+//import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
   name: string;
@@ -29,35 +29,36 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    //subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    path: "/"
   },
   {
     icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
-  },
-  {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
+    name: "Automation",
     subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
+      { name: "Schedule", path: "", pro: true },
+      { name: "FACEBOOK", path: "", pro: false },
+      { name: "INSTAGRAM", path: "", pro: false },
+      { name: "TIKTOK", path: "", pro: true },
+      { name: "TELEGRAM", path: "", pro: true },
     ],
+  },
+  {
+    name: "Products",
+    icon: <ListIcon />,
+    //subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+    path:"/products"
+  },
+  {
+    name: "Customers",
+    icon: <TableIcon />,
+    //subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
+    path: "/customers"
+  },
+  {
+    name: "Orders",
+    icon: <PageIcon />,
+    path: "/orders",
   },
 ];
 
@@ -90,6 +91,11 @@ const othersItems: NavItem[] = [
       { name: "Sign Up", path: "/signup", pro: false },
     ],
   },
+  {
+    icon: <UserCircleIcon />,
+    name: "User Profile",
+    path: "/profile",
+  }
 ];
 
 const AppSidebar: React.FC = () => {
@@ -368,7 +374,6 @@ const AppSidebar: React.FC = () => {
             </div>
           </div>
         </nav>
-        {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}
       </div>
     </aside>
   );

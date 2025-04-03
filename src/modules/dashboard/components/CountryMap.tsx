@@ -32,8 +32,8 @@ const CountryMap: React.FC<CountryMapProps> = ({ mapColor }) => {
       markersSelectable={true}
       markers={[
         {
-          latLng: [37.2580397, -104.657039],
-          name: "United States",
+          latLng: [27.87429 , -0.29388],
+          name: "Adrar",
           style: {
             fill: "#465FFF",
             borderWidth: 1,

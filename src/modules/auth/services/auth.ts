@@ -33,7 +33,7 @@ export class AuthService {
   static async logoutUser(): Promise<any> {
     try {
       // The interceptor will automatically add the Authorization header
-      const response = await api.post('/auth/logout');
+      const response = await api.post('auth/logout');
       return response.data;
     } catch (error: any) {
       throw new Error(error.response?.data?.error?.message || 'Failed to logout');
@@ -61,11 +61,15 @@ export class AuthService {
   static async refreshToken(): Promise<any> {
     try {
       const refreshToken = localStorage.getItem('refreshToken');
+      if (!refreshToken) {
+        localStorage.removeItem('accessToken')
+        return
+      }
       const response = await axiosInstance.post('/refresh-token', null, {
         headers: {
-          'Authorization': `Bearer ${refreshToken}`,
+          'Authorization': 'Bearer '+ refreshToken,
         },
-        withCredentials: true
+        
       });
       const data = response.data as { data?: { accessToken?: string } };
       if (data.data?.accessToken) {

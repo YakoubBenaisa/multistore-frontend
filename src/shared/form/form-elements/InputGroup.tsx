@@ -1,7 +1,7 @@
 import ComponentCard from "../../containers/ComponentCard";
 import Label from "../Label";
 import Input from "../input/InputField";
-import { EnvelopeIcon } from "../../../../../assets/icons";
+import { EnvelopeIcon } from "../../../assets/icons";
 import PhoneInput from "../group-input/PhoneInput";
 
 export default function InputGroup() {

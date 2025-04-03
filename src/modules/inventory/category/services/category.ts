@@ -1,7 +1,7 @@
 
 
 export class categoryService {
-  static baseUrl: string = 'http://localhost:3005/api/v1/';
+  static baseUrl: string = 'http://localhost:3005/api/v1/stores';
 
   /**
    * Creates or updates a store.
@@ -17,7 +17,6 @@ export class categoryService {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
       },
       body: JSON.stringify(params)
     });
@@ -40,7 +39,7 @@ export class categoryService {
     const response = await fetch(`${this.baseUrl}/${storeId}/categories`, {method: 'GET'});
 
     const data = await response.json();
-
+    console.log("service: ",data.data )
     if (!response.ok) {
       throw new Error(data.error?.message || 'Failed to Get categories');
     }

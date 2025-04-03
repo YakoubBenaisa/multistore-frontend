@@ -3,7 +3,7 @@ import ComponentCard from "../../containers/ComponentCard";
 import Label from "../Label";
 import Input from "../input/InputField";
 import Select from "../Select";
-import { CalenderIcon, EyeCloseIcon, EyeIcon, TimeIcon } from "../../../../../assets/icons";
+import { CalenderIcon, EyeCloseIcon, EyeIcon, TimeIcon } from "../../../assets/icons";
 import Flatpickr from "react-flatpickr";
 
 export default function DefaultInputs() {

@@ -13,11 +13,9 @@ import { useUser } from "./../hooks/useUser";
 import AuthLayout from "../../../shared/layout/AuthPageLayout";
 import PageMeta from "../../../shared/containers/PageMeta";
 import { setUser } from "../../../shared/states/user/userSlice";
-import { useSelector } from "react-redux";
 
 function SignInForm() {
-  console.log(useSelector((state: any) => state.auth.isAuthenticated));
-  console.log(useSelector((state: any) => state.user.user));
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

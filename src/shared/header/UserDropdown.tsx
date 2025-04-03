@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { Dropdown } from "../ui/dropdown/Dropdown";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useLogout } from "../../modules/auth/hooks/useLogout";
 import {  useDispatch } from "react-redux";
 import { User } from "lucide-react";
@@ -17,7 +17,7 @@ export default function UserDropdown() {
   //console.log(user)
     const dispatch = useDispatch();
     const { logout } = useLogout();
-    
+    const navigator = useNavigate()
       const handleLogout = async () => {
         try {
           await logout();
@@ -26,7 +26,7 @@ export default function UserDropdown() {
           dispatch(removeUser())
           dispatch(removeStore())
           // Optionally, navigate to a login page or clear additional state here.
-    
+          navigator('/home')
         } catch (err) {
           // The error is already set in the hook's state, but you can log it here if needed.
           //console.error('Logout failed:', err);

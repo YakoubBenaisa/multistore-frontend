@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
 
 export default function useGetCategories() {
-  const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -16,7 +15,6 @@ export default function useGetCategories() {
     setError(null);
     try {
       const data = await categoryService.getAll(storeId);
-      setCategories(data);
       setLoading(false);
       return data;
     } catch (err: any) {
@@ -26,5 +24,5 @@ export default function useGetCategories() {
     }
   }, []);
 
-  return { categories, getCategories, loading, error };
+  return { getCategories, loading, error };
 }

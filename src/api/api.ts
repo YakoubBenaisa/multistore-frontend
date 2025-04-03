@@ -5,7 +5,7 @@ import { AuthService } from '../modules/auth/services/auth'; // Adjust the path 
 const api = axios.create({
   baseURL: 'http://localhost:3005/api/v1', // Replace with your actual API base URL
   headers: {
-    'Content-Type': 'application/json',
+    
   },
 });
 

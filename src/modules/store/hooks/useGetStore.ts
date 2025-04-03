@@ -25,7 +25,6 @@ export function useGetStore() {
       
       // Clean the store data before dispatching
       const { owner_id, created_at, updated_at, owner, ...cleanStore } = storeResponse.data;
-      
       // Dispatch the cleaned store data to Redux
       //dispatch(setStore(cleanStore));
       

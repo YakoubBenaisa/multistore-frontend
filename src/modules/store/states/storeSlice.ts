@@ -25,6 +25,11 @@ const storeSlice = createSlice({
         setStore: (state, action) => {
             state.store = action.payload;
           },
+        setName: (state, action) => {
+            if (state.store) {
+                state.store.name = action.payload;
+            }
+        },
         removeStore: (state) =>{
             state.store = null
         },
@@ -37,5 +42,5 @@ const storeSlice = createSlice({
 })
 
 
-export const { setStore, removeStore, togglepayment} = storeSlice.actions ;
+export const { setStore, removeStore, togglepayment, setName} = storeSlice.actions ;
 export default storeSlice.reducer;
